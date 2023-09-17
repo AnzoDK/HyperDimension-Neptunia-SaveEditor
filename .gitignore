@@ -6,3 +6,4 @@ build/*
 build-HyperDimension-Neptunia-SaveEditor-Desktop-Debug/*
 build-HyperDimension-Neptunia-SaveEditor-Desktop-Release/*
 HyperDimension-Neptunia-SaveEditor.pro.user
+.kdev4
