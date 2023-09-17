@@ -3,3 +3,6 @@ HyperDimension-Neptunia-Save-Reasearch/*
 HyperDimension-Neptunia-Save-Reasearch/
 libnepnep.*
 build/*
+build-HyperDimension-Neptunia-SaveEditor-Desktop-Debug/*
+build-HyperDimension-Neptunia-SaveEditor-Desktop-Release/*
+HyperDimension-Neptunia-SaveEditor.pro.user
