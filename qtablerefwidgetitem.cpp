@@ -30,7 +30,6 @@ void QTableRefWidgetItem::UpdateData()
     }
     unsigned long long int data = 0;
     float f = 0.0;
-    uint32_t test = 0;
     switch(m_originalData->expectedDataType)
     {
     case UNKNOWN:
