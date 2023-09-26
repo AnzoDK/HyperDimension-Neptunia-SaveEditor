@@ -63,6 +63,64 @@ std::vector<std::string> MultiSave::ItereateSlots()
     return m_currentManager->PopulatedSlots();
 }
 
+bool MultiSave::LoadSaveByPath(std::string savePath)
+{
+    if(m_currentManager != 0x0)
+    {
+        bool loadSuccess = m_currentManager->LoadSave(savePath);
+        if(!loadSuccess)
+        {
+            QMessageBox messageBox;
+            messageBox.critical(0,"Failed To load Save","A save load error occurred - Please check log/STDOUT!");
+            messageBox.setFixedSize(500,200);
+        }
+        return loadSuccess;
+    }
+    std::cout << "No current Manager" << std::endl;
+    return false;
+}
+
+void MultiSave::LoadSaveBySlotNumber(int num)
+{
+    if(m_currentManager != 0x0)
+    {
+        bool loadSuccess = m_currentManager->LoadSave(num);
+        if(!loadSuccess)
+        {
+            QMessageBox messageBox;
+            messageBox.critical(0,"Failed To load Save","A save load error occurred - Please check log/STDOUT!");
+            messageBox.setFixedSize(500,200);
+        }
+
+    }
+    std::cout << "No current Manager" << std::endl;
+}
+
+void MultiSave::m_LoadSaveIntoRAM()
+{
+    if(m_currentManager != 0x0)
+    {
+        m_currentManager->LoadSaveAndSlotIntoRAM(); //No reason to do this as its done when the SaveFile & Slot is created
+    }
+    std::cout << "No current Manager" << std::endl;
+}
+
+bool MultiSave::IsLoaded()
+{
+    return m_currentManager->GetSaveFile()->IsLoaded() && m_currentManager->GetSaveSlot()->IsLoaded();
+}
+
+std::pair<std::string, DataRefStructure> MultiSave::GetKeyPairByKey(const std::string& key)
+{
+    return m_currentManager->GetSaveFile()->GetDataPairByKey(key);
+}
+
+void MultiSave::CommitToDisk()
+{
+    std::cout << "Saving Updates to disk..." << std::endl;
+    m_currentManager->CommitChanges();
+}
+
 //SaveManager
 
 SaveManager::SaveManager(QObject *parent)
@@ -85,6 +143,11 @@ void SaveManager::DeleteMultiSave()
     }
 }
 
+void SaveManager::CommitToDisk()
+{
+    m_rbSave->CommitToDisk();
+}
+
 void SaveManager::SetSaveRoot(QString qpath)
 {
     std::string path = qpath.toStdString();
@@ -103,6 +166,26 @@ void SaveManager::SetSaveRoot(QString qpath)
         return;
     }
     std::vector<std::string> saveSlots = m_rbSave->ItereateSlots();
+    emit SaveSlotsUpdated(saveSlots);
+}
 
+void SaveManager::GetSaveDataForPath(QString path)
+{
+    std::string s = path.toStdString();
+    m_rbSave->LoadSaveByPath(s);
+    if(m_rbSave->IsLoaded())
+    {
+        emit SaveDataLoaded();
+    }
+}
 
+void SaveManager::GetSaveDataByKeys(PageDataStructure<QList<QString>> keys)
+{
+    QList<std::pair<std::string, DataRefStructure>> keyValues = QList<std::pair<std::string, DataRefStructure>>();
+    for(size_t i = 0; i < keys.Data.size(); i++)
+    {
+        keyValues.push_back(m_rbSave->GetKeyPairByKey(keys.Data.at(i).toStdString()));
+    }
+    PageDataStructure<QList<std::pair<std::string, DataRefStructure>>> pageKeyValues = { keys.pageName, keyValues };
+    emit DataKeysReady(pageKeyValues);
 }
