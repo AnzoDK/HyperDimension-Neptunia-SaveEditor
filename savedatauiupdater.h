@@ -26,6 +26,7 @@ signals:
     void RequestPageData(PageDataStructure<QList<QString>>); //Request a list of datakeys from savemanager
 
 public slots:
+    void ForceReloadSlot();
     void UpdateSlotList(std::vector<std::string> saveSlots);
     void NewSaveSlotSelected();
     void OnSaveLoaded();

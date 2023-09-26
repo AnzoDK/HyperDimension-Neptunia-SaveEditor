@@ -22,6 +22,7 @@ public:
     void LoadSaveBySlotNumber(int num);
     bool IsLoaded();
     void CommitToDisk();
+    void ReloadSave();
     std::pair<std::string, DataRefStructure> GetKeyPairByKey(const std::string& key);
     //Since only RB1 is created in LibNepNep - we just add that one for now
     ReBirth1::ReBirth1Manager* rb1SaveManager = 0x0;
@@ -51,6 +52,7 @@ public:
 
 public slots:
     void CommitToDisk();
+    void ReloadSave();
     void SetSaveRoot(QString path);
     void GetSaveDataForPath(QString path);
     void GetSaveDataByKeys(PageDataStructure<QList<QString>> keys);
@@ -59,6 +61,7 @@ signals:
     void SaveSlotsUpdated(std::vector<std::string>);
     void DataKeysReady(PageDataStructure<QList<std::pair<std::string, DataRefStructure>>>);
     void SaveDataLoaded();
+    void CurrentSaveDataHasChanged();
 
 
 private:

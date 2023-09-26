@@ -14,6 +14,8 @@ void m_SetUp(Ui::MainWindow& main, SaveManager* saveMan, FileDialogHandler* fdHa
     main.miscTable->setColumnCount(2);
     main.miscTable->setHorizontalHeaderItem(0, new QTableWidgetItem("Key"));
     main.miscTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Value"));
+
+    /*Static signal stuff that I'm too stoopid to make better*/
     QObject::connect(main.setSaveRootBtn, SIGNAL(clicked(bool)), fdHandler, SLOT(OpenDialog()));
     QObject::connect(fdHandler, &FileDialogHandler::DirectoryChange, saveMan, &SaveManager::SetSaveRoot);
     QObject::connect(fdHandler, &FileDialogHandler::DirectoryChangeForLabel, main.currentRootLabel, &QLabel::setText);
@@ -24,6 +26,8 @@ void m_SetUp(Ui::MainWindow& main, SaveManager* saveMan, FileDialogHandler* fdHa
     QObject::connect(saveMan, &SaveManager::DataKeysReady, sdUpdater, &SaveDataUIUpdater::OnKeysReady);
     QObject::connect(main.miscTable, &QTableWidget::itemChanged, sdUpdater, &SaveDataUIUpdater::OnItemsChanged);
     QObject::connect(main.saveChangesBtn, SIGNAL(clicked(bool)), saveMan, SLOT(CommitToDisk()));
+    QObject::connect(main.restoreSaveBtn, SIGNAL(clicked(bool)), saveMan, SLOT(ReloadSave()));
+    QObject::connect(saveMan, &SaveManager::CurrentSaveDataHasChanged, sdUpdater, &SaveDataUIUpdater::ForceReloadSlot);
 }
 
 

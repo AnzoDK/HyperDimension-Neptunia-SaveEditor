@@ -29,7 +29,7 @@ void SaveDataUIUpdater::NewSaveSlotSelected()
 void SaveDataUIUpdater::OnSaveLoaded()
 {
 
-    QList<QString> miscList = {"playTimeHours", "playTimeMinutes", "playTimeSeconds"};
+    QList<QString> miscList = {"playTimeHours", "playTimeMinutes", "playTimeSeconds", "saveCount"};
     PageDataStructure<QList<QString>> miscDataRequest = { "miscPage", miscList };
     emit RequestPageData(miscDataRequest);
 
@@ -65,4 +65,9 @@ void SaveDataUIUpdater::OnItemsChanged(QTableWidgetItem *item)
     {
         //Ignore
     }
+}
+
+void SaveDataUIUpdater::ForceReloadSlot()
+{
+    NewSaveSlotSelected();
 }

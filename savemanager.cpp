@@ -121,6 +121,11 @@ void MultiSave::CommitToDisk()
     m_currentManager->CommitChanges();
 }
 
+void MultiSave::ReloadSave()
+{
+    m_LoadSaveIntoRAM();
+}
+
 //SaveManager
 
 SaveManager::SaveManager(QObject *parent)
@@ -146,6 +151,12 @@ void SaveManager::DeleteMultiSave()
 void SaveManager::CommitToDisk()
 {
     m_rbSave->CommitToDisk();
+}
+
+void SaveManager::ReloadSave()
+{
+    m_rbSave->ReloadSave();
+    emit CurrentSaveDataHasChanged();
 }
 
 void SaveManager::SetSaveRoot(QString qpath)
