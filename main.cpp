@@ -7,6 +7,7 @@
 #include "savemanager.h"
 #include "filedialoghandler.h"
 #include "savedatauiupdater.h"
+#include "localizationmanager.h"
 #include <QCommandLineParser>
 
 void m_SetUp(Ui::MainWindow& main, SaveManager* saveMan, FileDialogHandler* fdHandler, SaveDataUIUpdater* sdUpdater)
@@ -31,7 +32,7 @@ void m_SetUp(Ui::MainWindow& main, SaveManager* saveMan, FileDialogHandler* fdHa
 }
 
 
-
+LocalizationManager* g_LocaleMan = new LocalizationManager("locale.json");
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
@@ -43,6 +44,7 @@ int main(int argc, char** argv)
     QMainWindow w;
     Ui::MainWindow main;
     main.setupUi(&w);
+
     SaveManager* saveMan = new SaveManager();
     FileDialogHandler* fdHandler = new FileDialogHandler();
     SaveDataUIUpdater* sdUpdater = new SaveDataUIUpdater(main);
@@ -54,6 +56,7 @@ int main(int argc, char** argv)
     delete saveMan;
     delete fdHandler;
     delete sdUpdater;
+    delete g_LocaleMan;
     return exCode;
 }
 

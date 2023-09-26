@@ -1,10 +1,11 @@
 TEMPLATE = app
 
 QT += widgets
-
+CONFIG += c++17
 FORMS += mainwindow.ui
 SOURCES += main.cpp \
     filedialoghandler.cpp \
+    localizationmanager.cpp \
     qtablerefwidgetitem.cpp \
     savedatauiupdater.cpp \
     savemanager.cpp \
@@ -18,6 +19,7 @@ DESTDIR = build
 
 HEADERS += \
     filedialoghandler.h \
+    localizationmanager.h \
     qtablerefwidgetitem.h \
     savedatauiupdater.h \
     savemanager.h \
@@ -31,3 +33,6 @@ DEPENDPATH += $$PWD/libNepNep/include
 #unix:!macx: LIBS += -lssl
 
 #unix:!macx: LIBS += -lcrypto
+
+DISTFILES += \
+    locale.json

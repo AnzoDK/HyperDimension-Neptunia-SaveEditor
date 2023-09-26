@@ -1,0 +1,10 @@
+{
+    "playTimeHours": "Play Time (Hours)",
+    "playTimeMinutes": "Play Time (Minutes)",
+    "playTimeSeconds": "Play Time (Seconds)",
+    "saveCount": "Amount of times the game has been saved",
+    "sharesPlaneptune": "Planeptune Shares",
+    "sharesLeanbox": "Leanbox Shares",
+    "sharesLastation": "Lastation Shares",
+    "sharesOther": "BadGuys Shares"
+}

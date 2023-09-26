@@ -1,6 +1,7 @@
 #include "savedatauiupdater.h"
 #include "qtablerefwidgetitem.h"
 #include <libNepNep/include/ReBirth/ReBirthExtras.h>
+#include "localizationmanager.h"
 SaveDataUIUpdater::SaveDataUIUpdater(Ui::MainWindow& mainWindow) : m_window(mainWindow)
 {
     QObject::connect(m_window.saveGamesList, &QListWidget::itemSelectionChanged, this, &SaveDataUIUpdater::NewSaveSlotSelected);
@@ -29,7 +30,16 @@ void SaveDataUIUpdater::NewSaveSlotSelected()
 void SaveDataUIUpdater::OnSaveLoaded()
 {
 
-    QList<QString> miscList = {"playTimeHours", "playTimeMinutes", "playTimeSeconds", "saveCount"};
+    QList<QString> miscList = {
+        "playTimeHours",
+        "playTimeMinutes",
+        "playTimeSeconds",
+        "saveCount",
+        "sharesPlaneptune",
+        "sharesLeanbox",
+        "sharesLastation",
+        "sharesOther"
+    };
     PageDataStructure<QList<QString>> miscDataRequest = { "miscPage", miscList };
     emit RequestPageData(miscDataRequest);
 
@@ -44,14 +54,13 @@ void SaveDataUIUpdater::OnKeysReady(PageDataStructure<QList<std::pair<std::strin
     for(size_t i = 0; i < pageData.Data.size(); i++)
     {
         m_window.miscTable->insertRow(i);
-        QString q = QString(pageData.Data.at(i).first.c_str());
+        QString q = g_LocaleMan->GetDefaultLanguageString(QString::fromStdString(pageData.Data.at(i).first));
         QTableRefWidgetItem* item = new QTableRefWidgetItem(q);
         item->setFlags(item->flags() ^ Qt::ItemIsEditable);
         m_window.miscTable->setItem(i,0,item);
         QTableRefWidgetItem* valueItem = new QTableRefWidgetItem(pageData.Data.at(i).second);
         m_window.miscTable->setItem(i,1, valueItem);
         //m_refList.push_back(valueItem);
-
 
     }
 }
